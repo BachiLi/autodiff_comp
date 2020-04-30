@@ -1,4 +1,4 @@
-/* foo computes x^T A x
+/* xTAx computes x^T A x
  * We want to differentiate with x
  * */
 
