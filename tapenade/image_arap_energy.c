@@ -50,6 +50,7 @@ bool get_mask_unchecked(int W, int H,
     return img[i * H + j];
 }
 
+inline
 bool get_mask(int W, int H,
               const bool *img,
               int i, int j) {
@@ -97,8 +98,8 @@ void arap(int W, int H, float w_fit, float w_reg,
           float *Output /* [10] */) {
     Vec2f E_fit = sq(sub(get_vec2f_unchecked(W, H, 3, Offsets_Angle, i, j),
                          get_vec2f_unchecked(W, H, 2, Constraints, i, j)));
-    Output[0] = (float)(C_valid[i * W + j]) * w_fit * E_fit.x;
-    Output[1] = (float)(C_valid[i * W + j]) * w_fit * E_fit.y;
+    Output[0] = (float)(C_valid[i * H + j]) * w_fit * E_fit.x;
+    Output[1] = (float)(C_valid[i * H + j]) * w_fit * E_fit.y;
     Vec2f reg_right = reg(W, H, Offsets_Angle, UrShape, Mask, i, j, 1, 0);
     Vec2f reg_left = reg(W, H, Offsets_Angle, UrShape, Mask, i, j, -1, 0);
     Vec2f reg_bottom = reg(W, H, Offsets_Angle, UrShape, Mask, i, j, 0, 1);
