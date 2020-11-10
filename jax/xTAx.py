@@ -4,7 +4,7 @@ import jax.numpy as np
 import time
 
 num_iter = 10
-N = 6000
+N = 1000
 
 key = jax.random.PRNGKey(1234)
 x = jax.random.uniform(key, shape=[N], dtype=np.float32)
@@ -15,14 +15,17 @@ def f(x):
 
 df = jax.hessian(f)
 
+jf = jax.jit(f)
+jdf = jax.jit(df)
+
 fwd_time = 1e20
 hess_time = 1e20
 
 for i in range(num_iter):
     start = time.time()
-    y = f(x)
+    y = jf(x)
     fwd = time.time()
-    hess = df(x)
+    hess = jdf(x)
     end = time.time()
 
     if fwd - start < fwd_time:
