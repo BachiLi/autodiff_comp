@@ -4,7 +4,6 @@
 /* xTAx computes x^T A x
  * We want to differentiate with x
  * */
-int N = 100;
 
 /*
   Differentiation of xTAx in forward (tangent) mode:
@@ -13,7 +12,7 @@ int N = 100;
    RW status of diff variables: *out:out *x:in
    Plus diff mem management of: out:in x:in
 */
-void xTAx_d(float *x, float *xd, float *A, float *out, float *outd) {
+void xTAx_d(float *x, float *xd, float *A, float *out, float *outd, int N) {
     int i, j, k;
     float *tmp;
     float *tmpd;

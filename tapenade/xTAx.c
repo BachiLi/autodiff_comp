@@ -2,9 +2,7 @@
  * We want to differentiate with x
  * */
 
-int N = 100;
-
-void xTAx(float *x, float *A, float *out) {
+void xTAx(float *x, float *A, float *out, int N) {
     int i, j, k;
     float *tmp;
     tmp = (float *)malloc(sizeof(float)*N);
