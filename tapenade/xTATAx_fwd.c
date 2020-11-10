@@ -9,7 +9,7 @@
    RW status of diff variables: *out:out *A:in
    Plus diff mem management of: out:in A:in
 */
-void xTATx_d(float *x, float *A, float *Ad, float *out, float *outd, int N) {
+void xTATAx_d(float *x, float *A, float *Ad, float *out, float *outd, int N) {
     int i, j, k;
     float *ATA;
     float *ATAd;
