@@ -4,9 +4,7 @@
  * Tapanade generates the equivalent of x^T(A^TdA+dA^TA)x
  * */
 
-int N = 100;
-
-void xTATx(float *x, float *A, float *out) {
+void xTATx(float *x, float *A, float *out, int N) {
     int i, j, k;
     float *ATA;
     ATA = (float *)malloc(sizeof(float)*N*N);

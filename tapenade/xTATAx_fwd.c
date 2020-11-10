@@ -2,8 +2,6 @@
     Tapenade 3.14 (master-db54337a6) - 29 Jul 2019 10:54
 */
 
-int N = 100;
-
 /*
   Differentiation of xTATx in forward (tangent) mode:
    variations   of useful results: *out
@@ -11,7 +9,7 @@ int N = 100;
    RW status of diff variables: *out:out *A:in
    Plus diff mem management of: out:in A:in
 */
-void xTATx_d(float *x, float *A, float *Ad, float *out, float *outd) {
+void xTATx_d(float *x, float *A, float *Ad, float *out, float *outd, int N) {
     int i, j, k;
     float *ATA;
     float *ATAd;
