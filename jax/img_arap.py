@@ -88,11 +88,19 @@ jf = jax.jit(f)
 jJTJx = jax.jit(JTJx)
 jJTFx = jax.jit(JTFx)
 
-fwd_time = 1e20
-JTJ_time = 1e20
-JTFx_time = 1e20
+# jf = f
+# jJTJx = JTJx
+# jJTFx = JTFx
 
-for i in range(num_iter):
+min_fwd_time = 1e20
+min_JTJ_time = 1e20
+min_JTFx_time = 1e20
+
+avg_fwd_time = 0
+avg_JTJ_time = 0
+avg_JTFx_time = 0
+
+for i in range(num_iter + 1):
     start = time.time()
     y = jf(Offsets, Angle)
     int0 = time.time()
@@ -101,15 +109,24 @@ for i in range(num_iter):
     jtfx = jJTFx(Offsets, Angle)
     end = time.time()
 
-    if int0 - start < fwd_time:
-        fwd_time = int0 - start
-    if int1 - int0 < JTJ_time:
-        JTJ_time = int1 - int0
-    if end - int1 < JTFx_time:
-        JTFx_time = end - int1
+    if i > 0:
+        avg_fwd_time += int0 - start
+        avg_JTJ_time += int1 - int0
+        avg_JTFx_time += end - int1
+        if int0 - start < min_fwd_time:
+            min_fwd_time = int0 - start
+        if int1 - int0 < min_JTJ_time:
+            min_JTJ_time = int1 - int0
+        if end - int1 < min_JTFx_time:
+            min_JTFx_time = end - int1
 
-print('Minimum forward time:', fwd_time)
-print('Minimum JTJ time:', JTJ_time)
-print('Minimum JTFx time:', JTFx_time)
-print('Ratio JTJ:', JTJ_time / fwd_time)
-print('Ratio JTFx:', JTFx_time / fwd_time)
+print('Minimum forward time:', min_fwd_time)
+print('Minimum JTJ time:', min_JTJ_time)
+print('Minimum JTFx time:', min_JTFx_time)
+print('Ratio minimum JTJ:', min_JTJ_time / min_fwd_time)
+print('Ratio minimum JTFx:', min_JTFx_time / min_fwd_time)
+print('Average forward time:', avg_fwd_time / num_iter)
+print('Average JTJ time:', avg_JTJ_time / num_iter)
+print('Average JTFx time:', avg_JTFx_time / num_iter)
+print('Ratio average JTJ:', avg_JTJ_time / avg_fwd_time)
+print('Ratio average JTFx:', avg_JTFx_time / avg_fwd_time)
