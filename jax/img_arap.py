@@ -17,20 +17,20 @@ Constraints = jax.random.uniform(key, shape=[Mask.shape[0], Mask.shape[1], 2], d
 C_valid = np.ones(Mask.shape, dtype=Mask.dtype)
 
 def f(Offsets, Angle):
-    Offsets_left = np.roll(Offsets, 0, -1)
-    Offsets_right = np.roll(Offsets, 0, 1)
-    Offsets_up = np.roll(Offsets, 1, -1)
-    Offsets_down = np.roll(Offsets, 1, 1)
+    Offsets_left = np.roll(Offsets, shift=-1, axis=0)
+    Offsets_right = np.roll(Offsets, shift=1, axis=0)
+    Offsets_up = np.roll(Offsets, shift=-1, axis=1)
+    Offsets_down = np.roll(Offsets, shift=1, axis=1)
 
-    UrShape_left = np.roll(UrShape, 0, -1)
-    UrShape_right = np.roll(UrShape, 0, 1)
-    UrShape_up = np.roll(UrShape, 1, -1)
-    UrShape_down = np.roll(UrShape, 1, 1)
+    UrShape_left = np.roll(UrShape, shift=-1, axis=0)
+    UrShape_right = np.roll(UrShape, shift=1, axis=0)
+    UrShape_up = np.roll(UrShape, shift=-1, axis=1)
+    UrShape_down = np.roll(UrShape, shift=1, axis=1)
 
-    Mask_left = np.roll(Mask, 0, -1)
-    Mask_right = np.roll(Mask, 0, 1)
-    Mask_up = np.roll(Mask, 1, -1)
-    Mask_down = np.roll(Mask, 1, 1)
+    Mask_left = np.roll(Mask, shift=-1, axis=0)
+    Mask_right = np.roll(Mask, shift=1, axis=0)
+    Mask_up = np.roll(Mask, shift=-1, axis=1)
+    Mask_down = np.roll(Mask, shift=1, axis=1)
 
     d_off_left = Offsets - Offsets_left
     d_off_right = Offsets - Offsets_right
