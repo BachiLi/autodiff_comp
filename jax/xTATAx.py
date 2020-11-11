@@ -20,21 +20,32 @@ def df(A, Ad):
 jf = jax.jit(f)
 jdf = jax.jit(df)
 
-fwd_time = 1e20
-jvp_time = 1e20
+min_fwd_time = 1e20
+min_jvp_time = 1e20
 
-for i in range(num_iter):
+avg_fwd_time = 0
+avg_jvp_time = 0
+
+for i in range(num_iter + 1):
     start = time.time()
-    y = jf(A)
+    y = jf(A).block_until_ready()
     fwd = time.time()
     jvp = jdf(A, Ad)
+    jvp[0].block_until_ready()
+    jvp[1].block_until_ready()
     end = time.time()
 
-    if fwd - start < fwd_time:
-        fwd_time = fwd - start
-    if end - fwd < jvp_time:
-        jvp_time = end - fwd
+    if i > 0:
+        avg_fwd_time += fwd - start
+        avg_jvp_time += end - fwd
+        if fwd - start < min_fwd_time:
+            min_fwd_time = fwd - start
+        if end - fwd < min_jvp_time:
+            min_jvp_time = end - fwd
 
-print('Minimum forward time:', fwd_time)
-print('Minimum jvp time:', jvp_time)
-print('Ratio:', jvp_time / fwd_time)
+print('Average forward time:', avg_fwd_time / num_iter)
+print('Average jvp time:', avg_jvp_time / num_iter)
+print('Ratio of average:', avg_jvp_time / avg_fwd_time)
+print('Minimum forward time:', min_fwd_time)
+print('Minimum jvp time:', min_jvp_time)
+print('Ratio of minimum:', min_jvp_time / min_fwd_time)
