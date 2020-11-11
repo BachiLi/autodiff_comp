@@ -102,11 +102,15 @@ avg_JTFx_time = 0
 
 for i in range(num_iter + 1):
     start = time.time()
-    y = jf(Offsets, Angle)
+    y = jf(Offsets, Angle).block_until_ready()
     int0 = time.time()
     jtjx = jJTJx(Offsets, Angle, Offsets_d, Angle_d)
+    jtjx[0].block_until_ready()
+    jtjx[1].block_until_ready()
     int1 = time.time()
     jtfx = jJTFx(Offsets, Angle)
+    jtfx[0].block_until_ready()
+    jtfx[1].block_until_ready()
     end = time.time()
 
     if i > 0:
